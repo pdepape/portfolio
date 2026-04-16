@@ -91,41 +91,38 @@ document.addEventListener('DOMContentLoaded', function() {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const inquiryType = document.getElementById('inquiry-type').value;
-            const message = document.getElementById('message').value;
+            // Get form data
+            const formData = new FormData(contactForm);
             
-            // Basic validation
-            if (!name || !email || !subject || !inquiryType || !message) {
-                showFormMessage('Please fill in all fields.', 'error');
-                return;
-            }
+            // Show loading state
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Sending...';
+            submitButton.disabled = true;
             
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                showFormMessage('Please enter a valid email address.', 'error');
-                return;
-            }
-            
-            // Here you would typically send the form data to a backend
-            // For now, we'll just show a success message
-            console.log('Form submitted:', {
-                name,
-                email,
-                subject,
-                inquiryType,
-                message
+            // Send form data to PHP script
+            fetch('contact.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                showFormMessage(data.message, data.success ? 'success' : 'error');
+                
+                // Reset form on success
+                if (data.success) {
+                    contactForm.reset();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showFormMessage('Sorry, there was an error sending your message. Please try again later.', 'error');
+            })
+            .finally(() => {
+                // Reset button state
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
             });
-            
-            // Show success message
-            showFormMessage('Thank you for your message! I\'ll get back to you soon.', 'success');
-            
-            // Reset form
-            contactForm.reset();
         });
     }
 });

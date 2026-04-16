@@ -96,18 +96,25 @@ Edit the CSS variables in `css/style.css`:
 
 ### Contact Form Setup
 
-To make the contact form functional:
+**✅ WORKING PHP CONTACT FORM INCLUDED!**
 
-1. **Option 1 - Email Service**: Use a service like FormSubmit.co, Basin, or Formspree
-2. **Option 2 - Backend**: Set up a backend endpoint to handle form submissions
-3. Update the form action or add an API call in `js/script.js`
+Your contact form now works with PHP and sends real emails. Here's what you need to do:
 
-Example with FormSubmit.co:
-```html
-<form class="contact-form" action="https://formsubmit.co/your-email@example.com" method="POST">
-    <!-- form fields -->
-</form>
-```
+1. **Edit `contact.php`** and replace `"your-email@example.com"` with your actual email address
+2. **Upload all files** to HostGator (including `contact.php`)
+3. **Test the form** - it will send HTML-formatted emails to your inbox
+
+**Features:**
+- Server-side validation
+- HTML email formatting with professional styling
+- AJAX submission (no page refresh)
+- Loading states and error handling
+- Form reset after successful submission
+
+**Alternative Options:**
+- **FormSubmit.co**: Free service, no PHP needed
+- **EmailJS**: JavaScript-based email service
+- **Custom backend**: Set up your own API endpoint
 
 ## Features in Detail
 
